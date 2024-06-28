@@ -1,7 +1,7 @@
 
 # Next.js Project for BC Labs Interview Evaluation
 
-`live-url`](https://vercel.bclabs-crypto-dashboard.com)
+`live-url`](https://bclabs-evaluation.vercel.app)
 
 This is a Next.js project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), designed for BC Labs interview evaluation, prepared by Biniyam Daniel.
 
