@@ -7,12 +7,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "seed": "tsx ./seeds/seed.ts",
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "5.16.1",
     "next": "14.2.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tsx": "^4.15.8"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -28,7 +31,9 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "postcss": "^8",
     "prettier": "^3.3.2",
+    "prisma": "5.16.1",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

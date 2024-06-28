@@ -27,7 +27,7 @@ const CryptoDropdown: React.FC<CryptoDropdownProps> = ({ selectedCrypto, onChang
         onClick={() => setIsOpen(!isOpen)}>
         <div className="max-h-6 self-center flex">
           <Image
-            src={exchangeRates[selectedCrypto].logo}
+            src={exchangeRates[selectedCrypto]?.logo}
             className="self-center"
             alt={selectedCrypto}
             width={selectedCrypto === 'ETH' ? 20 : 32}
@@ -53,7 +53,7 @@ const CryptoDropdown: React.FC<CryptoDropdownProps> = ({ selectedCrypto, onChang
                   type="button"
                   className="flex items-center w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   onClick={() => handleSelect(crypto as CryptoCurrency)}>
-                  <Image src={exchangeRates[crypto as CryptoCurrency].logo} alt={crypto} width={20} height={20} />
+                  <Image src={exchangeRates[crypto as CryptoCurrency]?.logo} alt={crypto} width={20} height={20} />
                   <span className="mx-2">{crypto}</span>
                 </button>
               </li>

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import CryptoDropdown from './CryptoDropdown';
-import { CryptoCurrency, ExchangeRates } from '../types/CryptoExchangeTypes';
+import { CryptoCurrency, ExchangeRate, ExchangeRates } from '../types/CryptoExchangeTypes';
 import SwapLoader from './loaders/SwapLoader';
 
 const CryptoExchange: React.FC = () => {
@@ -12,12 +12,23 @@ const CryptoExchange: React.FC = () => {
   const [exchangeRate, setExchangeRate] = useState<string>('');
   const [swapAssets, setSwapAssets] = useState<ExchangeRates | null>(null);
 
+
   useEffect(() => {
     fetch('/api/swap')
       .then((response) => response.json())
-      .then((data) => setSwapAssets(data));
-  }, []);
+      .then((data) => {
+        const exchangeRates: ExchangeRates = data.reduce((acc: ExchangeRates, curr: ExchangeRate) => {
+          acc[curr.name as keyof ExchangeRates] = {
+            usd: curr.usd,
+            rate: curr.rate,
+            logo: curr.logo
+          };
+          return acc;
+        }, {} as ExchangeRates);
 
+        setSwapAssets(exchangeRates);
+      });
+  }, []);
   useEffect(() => {
     if (swapAssets) {
       calculateExchange(fromAmount, fromCrypto, toCrypto);
@@ -27,8 +38,8 @@ const CryptoExchange: React.FC = () => {
   const calculateExchange = (amount: string, from: CryptoCurrency, to: CryptoCurrency): void => {
     if (!swapAssets || amount === '') return;
 
-    const fromRate = swapAssets[from].rate;
-    const toRate = swapAssets[to].rate;
+    const fromRate = swapAssets[from]?.rate;
+    const toRate = swapAssets[to]?.rate;
     const rate = toRate / fromRate;
     const calculatedAmount = parseFloat(amount) * rate;
 
@@ -94,7 +105,7 @@ const CryptoExchange: React.FC = () => {
                   <div className="text-sm mt-1 text-exchangeRate">
                     $
                     {fromAmount && !isNaN(parseFloat(fromAmount))
-                      ? (parseFloat(fromAmount) * swapAssets[fromCrypto].USD).toFixed(2)
+                      ? (parseFloat(fromAmount) * swapAssets[fromCrypto]?.usd).toFixed(2)
                       : '0.00'}
                   </div>
                 </div>
@@ -143,7 +154,7 @@ const CryptoExchange: React.FC = () => {
                   <div className="text-sm mt-1 text-exchangeRate">
                     $
                     {toAmount && !isNaN(parseFloat(toAmount))
-                      ? (parseFloat(toAmount) * swapAssets[toCrypto].USD).toFixed(2)
+                      ? (parseFloat(toAmount) * swapAssets[toCrypto]?.usd).toFixed(2)
                       : '0.00'}
                   </div>
                 </div>
